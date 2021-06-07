@@ -1,0 +1,55 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-1
+
+
+       1				PUBLIC out_ds_5
+       2				EXTRN out_du_4:proc
+       3				EXTRN X:word
+       4				
+       5 0000				CSEG SEGMENT PARA PUBLIC 'CODE'
+       6				    assume CS:CSEG
+       7 0000				out_ds_5 proc near
+       8 0000  B8 ---- E		    mov ax, seg X
+       9 0003  8E D8				mov ds, ax
+      10 0005  B2 2D				mov dl, '-'
+      11 0007  B4 02				mov ah, 2
+      12 0009  CD 21				int 21h
+      13 000B  F7 1E 0000 E			neg X
+      14 000F  E8 0000 E			call out_du_4
+      15 0012  F7 1E 0000 E			neg X
+      16 0016  C3			    ret
+      17 0017				out_ds_5 endp
+      18 0017				CSEG ENDS
+      19				END
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0017	PARA	PUBLIC	'CODE'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+OUT_DS_5 . . . . . . . . . . . .  	N PROC	0000	CSEG	Global	Length = 0017
+OUT_DU_4 . . . . . . . . . . . .  	L NEAR	0000		External
+
+X  . . . . . . . . . . . . . . .  	V WORD	0000		External
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab6_ds		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     19 Source  Lines
+     19 Total   Lines
+     14 Symbols
+
+  46656 + 447452 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

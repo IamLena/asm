@@ -1,0 +1,116 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:43
+                                                             Page     1-1
+
+
+       1				PUBLIC out_hu_6
+       2				EXTRN X:word
+       3				
+       4 0000				DATAS SEGMENT PARA PUBLIC 'DATA2'
+       5 0000  0005[				hu_str db 5 dup(' ')
+       6	   20			
+       7			 ]	
+       8				
+       9 0005  30 31 32 33 34 35		symbols db "0123456789ABCDEF"
+      10       36 37 38 39 41 42	
+      11       43 44 45 46		
+      12 0015  0D 0A 24				str_end db 13, 10, '$'
+      13 0018				DATAS ENDS
+      14				
+      15 0000				CSEG SEGMENT PARA PUBLIC 'CODE'
+      16				    assume CS:CSEG, DS:DATAS
+      17 0000				out_hu_6 proc near
+      18 0000  B8 ---- E		    mov ax, seg X
+      19 0003  8E D8				mov ds, ax
+      20 0005  8B 1E 0000 E			mov bx, X
+      21 0009  B8 ---- R		    mov ax, DATAS
+      22 000C  8E D8				mov ds, ax
+      23 000E  BF 0000 R			mov di, OFFSET hu_str
+      24 0011  BE 000C				mov si, 12d
+      25 0014  B9 0004				mov cx, 4
+      26 0017  B8 F000				mov ax, 0f000h
+      27 001A  B2 00				mov dl, 0
+      28 001C				shift_loop:
+      29 001C  53			    push bx
+      30 001D  51				push cx
+      31 001E  23 D8				and bx, ax
+      32					
+      33 0020  8B CE				mov cx, si
+      34 0022  D3 CB				ror bx, cl
+      35 0024  8A 9F 0005 R			mov bl, symbols[bx]
+      36 0028  80 FB 30				cmp bl, '0'
+      37 002B  75 05				jne write
+      38 002D  80 FA 00				cmp dl, 0
+      39 0030  74 05				je continue
+      40					
+      41 0032				write:
+      42 0032  FE C2			    inc dl
+      43 0034  88 1D				mov byte ptr [di], bl
+      44 0036  47				inc di
+      45 0037				continue:
+      46 0037  83 EE 04				sub si, 4
+      47 003A  B1 04				mov cl, 4
+      48 003C  D3 C8				ror ax, cl
+      49 003E  59				pop cx
+      50 003F  5B				pop bx
+      51 0040  E2 DA				loop shift_loop
+      52				    
+      53					
+      54 0042  C6 05 24				mov byte ptr [di], '$'
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:43
+                                                             Page     1-2
+
+
+      55 0045  BA 0000 R			mov dx, OFFSET hu_str
+      56 0048  B4 09				mov ah, 9
+      57 004A  CD 21				int 21h
+      58 004C  BA 0015 R			mov dx, OFFSET str_end
+      59 004F  CD 21				int 21h
+      60 0051  B8 ---- E			mov ax, seg X
+      61 0054  8E D8				mov ds, ax
+      62					
+      63 0056  C3			    ret
+      64 0057				out_hu_6 endp
+      65 0057				CSEG ENDS
+      66				END
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:43
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0057	PARA	PUBLIC	'CODE'
+DATAS  . . . . . . . . . . . . .  	0018	PARA	PUBLIC	'DATA2'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+CONTINUE . . . . . . . . . . . .  	L NEAR	0037	CSEG
+
+HU_STR . . . . . . . . . . . . .  	L BYTE	0000	DATAS	Length = 0005
+
+OUT_HU_6 . . . . . . . . . . . .  	N PROC	0000	CSEG	Global	Length = 0057
+
+SHIFT_LOOP . . . . . . . . . . .  	L NEAR	001C	CSEG
+STR_END  . . . . . . . . . . . .  	L BYTE	0015	DATAS
+SYMBOLS  . . . . . . . . . . . .  	L BYTE	0005	DATAS
+
+WRITE  . . . . . . . . . . . . .  	L NEAR	0032	CSEG
+
+X  . . . . . . . . . . . . . . .  	V WORD	0000		External
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab6_hu		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     61 Source  Lines
+     61 Total   Lines
+     21 Symbols
+
+  46540 + 447568 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

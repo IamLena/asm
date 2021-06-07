@@ -1,0 +1,95 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-1
+
+
+       1				PUBLIC out_du_4
+       2				EXTRN X:word
+       3				
+       4 0000				DATAS SEGMENT PARA PUBLIC 'DATA2'
+       5 0000  0006[				du_str db 6 dup(' ')
+       6	   20			
+       7			 ]	
+       8				
+       9 0006  0D 0A 24				str_end db 13, 10, '$'
+      10 0009				DATAS ENDS
+      11				
+      12 0000				CSEG SEGMENT PARA PUBLIC 'CODE'
+      13				    assume CS:CSEG, DS:DATAS
+      14 0000				out_du_4 proc near
+      15 0000  B8 ---- E		    mov ax, seg X
+      16 0003  8E D8				mov ds, ax
+      17 0005  8B 1E 0000 E			mov bx, X
+      18 0009  B8 ---- R		    mov ax, DATAS
+      19 000C  8E D8				mov ds, ax
+      20 000E  B9 0000				mov cx, 0
+      21 0011  BF 0000 R			mov di, OFFSET du_str
+      22 0014  8B C3				mov ax, bx
+      23 0016  BB 000A				mov bx, 10
+      24				
+      25 0019				div_loop:	
+      26 0019  33 D2				xor dx, dx
+      27 001B  F7 F3				div bx
+      28 001D  80 C2 30				add dl, '0'
+      29 0020  52				push dx
+      30 0021  41				inc cx
+      31 0022  3D 0000				cmp ax, 0
+      32 0025  75 F2				jne div_loop
+      33					
+      34 0027				get_num:
+      35 0027  5A			    pop dx
+      36 0028  88 15				mov byte ptr [di], dl
+      37 002A  47				inc di
+      38 002B  E2 FA				loop get_num
+      39					
+      40 002D  C6 05 24				mov byte ptr [di], '$'
+      41 0030  BA 0000 R			mov dx, OFFSET du_str
+      42 0033  B4 09				mov ah, 9
+      43 0035  CD 21				int 21h
+      44 0037  BA 0006 R			mov dx, OFFSET str_end
+      45 003A  CD 21				int 21h
+      46 003C  B8 ---- E			mov ax, seg X
+      47 003F  8E D8				mov ds, ax
+      48					
+      49 0041  C3			    ret
+      50 0042				out_du_4 endp
+      51 0042				CSEG ENDS
+      52				END
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0042	PARA	PUBLIC	'CODE'
+DATAS  . . . . . . . . . . . . .  	0009	PARA	PUBLIC	'DATA2'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+DIV_LOOP . . . . . . . . . . . .  	L NEAR	0019	CSEG
+DU_STR . . . . . . . . . . . . .  	L BYTE	0000	DATAS	Length = 0006
+
+GET_NUM  . . . . . . . . . . . .  	L NEAR	0027	CSEG
+
+OUT_DU_4 . . . . . . . . . . . .  	N PROC	0000	CSEG	Global	Length = 0042
+
+STR_END  . . . . . . . . . . . .  	L BYTE	0006	DATAS
+
+X  . . . . . . . . . . . . . . .  	V WORD	0000		External
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab6_du		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     49 Source  Lines
+     49 Total   Lines
+     19 Symbols
+
+  46578 + 447530 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

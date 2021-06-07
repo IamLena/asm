@@ -1,0 +1,66 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/17/19 20:17:52
+                                                             Page     1-1
+
+
+       1				Public X
+       2				EXTRN welcome:near
+       3				
+       4 0000				sseg segment para stack 'stack'
+       5 0000  0040[			    db 64 dup (0)
+       6	   00			
+       7			 ]	
+       8				
+       9 0040				sseg ends
+      10				
+      11 0000				dseg segment para public 'data'
+      12 0000  43 68 6F 73 65 20	    X db 'Chose the option: $'
+      13       74 68 65 20 6F 70	
+      14       74 69 6F 6E 3A 20	
+      15       24			
+      16 0013				dseg ends
+      17				
+      18 0000				cseg segment word public 'code'
+      19				    assume SS:sseg, CS:cseg, DS:dseg
+      20				
+      21 0000				start:
+      22 0000  E8 0000 E		    call welcome
+      23 0003  B4 4C			    MOV ah, 4ch
+      24 0005  CD 21			    INT 21h
+      25				
+      26 0007				cseg ends
+      27				    end start
+Microsoft (R) Macro Assembler Version 5.10                  3/17/19 20:17:52
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0007	WORD	PUBLIC	'CODE'
+DSEG . . . . . . . . . . . . . .  	0013	PARA	PUBLIC	'DATA'
+SSEG . . . . . . . . . . . . . .  	0040	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CSEG
+
+WELCOME  . . . . . . . . . . . .  	L NEAR	0000		External
+
+X  . . . . . . . . . . . . . . .  	L BYTE	0000	DSEG	Global
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  foo1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     21 Source  Lines
+     21 Total   Lines
+     14 Symbols
+
+  46674 + 447418 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

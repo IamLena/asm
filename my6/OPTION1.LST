@@ -1,0 +1,35 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/18/19 01:31:05
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0000	PARA	PUBLIC	'CODE'
+DSEG2  . . . . . . . . . . . . .  	0000	PARA	PUBLIC	'DATA2'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+MAXLENGTH  . . . . . . . . . . .  	L BYTE	0000	DSEG2
+MES  . . . . . . . . . . . . . .  	L BYTE	0002	DSEG2
+
+OPTION1  . . . . . . . . . . . .  	N PROC	0000	CSEG	Global	Length = 000D
+
+REALLENGTH . . . . . . . . . . .  	L BYTE	0001	DSEG2
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  option1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+      0 Source  Lines
+      0 Total   Lines
+     13 Symbols
+
+  46656 + 447436 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

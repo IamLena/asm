@@ -1,0 +1,7 @@
+
+ Start  Stop   Length Name                   Class
+ 00000H 001FFH 00200H SSTACK                 STACK
+ 00200H 0023CH 0003DH DSEG                   DATA
+ 00240H 0027FH 00040H CSEG                   CODE
+
+Program entry point at 0024:0000

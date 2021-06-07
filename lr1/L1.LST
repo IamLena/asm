@@ -1,0 +1,104 @@
+Microsoft (R) Macro Assembler Version 5.10                  2/17/19 16:31:15
+                                                             Page     1-1
+
+
+       1				;  ******************************
+       2				;  *   Лабораторная работа N1   *
+       3				;  *   Изучение отладчика AFD   *
+       4				;  ******************************
+       5				;  ------------------------------
+       6				; Примечание: Программа выводит на дисп
+					лей сообщение и
+       7				;             и ожидает  нажатия клавиш
+					и , код символа
+       8				;             помещается в регистр AL
+       9				; Справка...: DS:DX - адрес строки;
+      10				;             Функции DOS :
+      11				;             09h выдать на дисплей стр
+					оку,
+      12				;             07h ввести символ без эха
+					,
+      13				;             4Ch завершить процесс ;
+      14				;             INT 21h - вызов  функции 
+					DOS
+      15				;
+      16 0000				StkSeg  SEGMENT PARA STACK 'STACK'
+      17 0000  0200[			        DB      200h DUP (?)
+      18	   ??			
+      19			 ]	
+      20				
+      21 0200				StkSeg  ENDS
+      22				;
+      23 0000				DataS   SEGMENT WORD 'DATA'
+      24 0000  0D			HelloMessage    DB   13                
+					;курсор поместить в нач. строки
+      25 0001  0A			                DB   10                
+					;перевести курсор на нов. строку
+      26 0002  48 65 6C 6C 6F 2C	                DB   'Hello, world !'  
+					;текст сообщения
+      27       20 77 6F 72 6C 64	
+      28       20 21			
+      29 0010  24			                DB   '$'               
+					;ограничитель для функции DOS
+      30 0011				DataS   ENDS
+      31				;
+      32 0000				Code    SEGMENT WORD 'CODE'
+      33				        ASSUME  CS:Code, DS:DataS
+      34 0000				DispMsg:
+      35 0000  B8 ---- R		        mov   AX,DataS                 
+					;загрузка в AX адреса сегмента данных
+      36 0003  8E D8			        mov   DS,AX                    
+					;установка DS
+      37 0005  BA 0000 R		        mov   DX,OFFSET HelloMessage   
+					;DS:DX - адрес строки
+      38 0008  B4 09			        mov   AH,9                     
+					;АН=09h выдать на дисплей строку
+      39 000A  CD 21			        int   21h                      
+					;вызов  функции DOS
+      40 000C  B4 07			        mov   AH,7                     
+Microsoft (R) Macro Assembler Version 5.10                  2/17/19 16:31:15
+                                                             Page     1-2
+
+
+					;АН=07h ввести символ без эха
+      41 000E  CD 21			        INT   21h                      
+					;вызов  функции DOS
+      42 0010  B4 4C			        mov   AH,4Ch                   
+					;АН=4Ch завершить процесс
+      43 0012  CD 21			        int   21h                      
+					;вызов  функции DOS
+      44 0014				Code    ENDS
+      45				        END   DispMsg
+Microsoft (R) Macro Assembler Version 5.10                  2/17/19 16:31:15
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0014	WORD	NONE	'CODE'
+DATAS  . . . . . . . . . . . . .  	0011	WORD	NONE	'DATA'
+STKSEG . . . . . . . . . . . . .  	0200	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+DISPMSG  . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+HELLOMESSAGE . . . . . . . . . .  	L BYTE	0000	DATAS
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  L1		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     40 Source  Lines
+     40 Total   Lines
+     12 Symbols
+
+  46684 + 445392 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

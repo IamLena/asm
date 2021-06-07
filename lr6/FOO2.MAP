@@ -1,0 +1,13 @@
+
+ Start  Stop   Length Name                   Class
+ 00000H 0003FH 00040H SSEG                   STACK
+ 00040H 00052H 00013H DSEG                   DATA
+ 00054H 0005AH 00007H CSEG                   CODE
+
+Program entry point at 0005:0004
+
+Unresolved externals:
+
+
+WELCOME in file(s):
+ FOO1.OBJ(foo1.asm)

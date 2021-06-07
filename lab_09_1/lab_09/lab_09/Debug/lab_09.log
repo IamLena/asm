@@ -1,0 +1,16 @@
+﻿Сборка начата 15.04.2019 14:19:26.
+     1>Проект "D:\TEMP\luchina\lab_09_1\lab_09\lab_09\lab_09.vcxproj" в узле 2 (целевые объекты Build).
+     1>_MASM:
+         Assembling pp.asm...
+         cmd.exe /C "C:\Users\User\AppData\Local\Temp\tmp6ce9fc5006dc4c748617a8939c2b8b79.cmd"
+         ml.exe /c /nologo /Zi /Fo"Debug\pp.obj" /W3 /errorReport:prompt  /Tapp.asm
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\TEMP\luchina\lab_09_1\lab_09\Debug\lab_09.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\TEMP\luchina\lab_09_1\lab_09\Debug\lab_09.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\TEMP\luchina\lab_09_1\lab_09\Debug\lab_09.lib" /MACHINE:X86 Debug\lab_09.obj
+         Debug\stdafx.obj
+         Debug\pp.obj
+         lab_09.vcxproj -> D:\TEMP\luchina\lab_09_1\lab_09\Debug\lab_09.exe
+     1>Построение проекта "D:\TEMP\luchina\lab_09_1\lab_09\lab_09\lab_09.vcxproj" завершено (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:00.43

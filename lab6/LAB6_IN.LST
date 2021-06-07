@@ -1,0 +1,155 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-1
+
+
+       1				PUBLIC input_x_1
+       2				EXTRN X:word
+       3				
+       4 0000				DATAS SEGMENT PARA PUBLIC 'DATA2'
+       5 0000				    buf label BYTE
+       6 0000  07			    maxl db 7 
+       7 0001  00				actl db ?
+       8 0002  0007[				text db 7 dup(0)
+       9	   00			
+      10			 ]	
+      11				
+      12 0009  0D 0A 69 6E 70 75		welcome db 13, 10, "input a num
+					ber: $"
+      13       74 20 61 20 6E 75	
+      14       6D 62 65 72 3A 20	
+      15       24			
+      16 001C				DATAS ENDS
+      17				
+      18 0000				CSEG SEGMENT PARA PUBLIC 'CODE'
+      19				    assume CS:CSEG, DS:DATAS
+      20					
+      21 0000				str_to_num proc near
+      22 0000  53			    push bx
+      23 0001  8B F2			    mov si, dx
+      24 0003  BF 000A				mov di, 10
+      25 0006  8A C8				mov cl, al
+      26 0008  33 C0				xor ax, ax
+      27 000A				mul_loop:
+      28 000A  8A 1C			    mov bl, [si]
+      29 000C  46				inc si
+      30 000D  80 EB 30				sub bl, '0'
+      31 0010  F7 E7				mul di
+      32 0012  72 09				jc cf_error
+      33 0014  03 C3				add ax, bx
+      34 0016  72 05				jc cf_error
+      35 0018  E2 F0				loop mul_loop
+      36 001A  EB 04 90				jmp str_to_num_exit
+      37 001D				cf_error:
+      38 001D  33 C0			    xor ax, ax
+      39 001F  F9				stc
+      40 0020				str_to_num_exit:
+      41 0020  5B				pop bx
+      42 0021  C3				ret
+      43 0022				str_to_num endp
+      44				
+      45 0022				input_x_1 proc near
+      46 0022  B8 ---- R		    mov ax, DATAS
+      47 0025  8E D8				mov ds, ax
+      48 0027  B4 09				mov ah, 9
+      49 0029  BA 0009 R			mov dx, OFFSET welcome
+      50 002C  CD 21				int 21h
+      51 002E  B4 0A				mov ah, 0Ah
+      52 0030  BA 0000 R			mov dx, OFFSET buf
+      53 0033  CD 21				int 21h
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-2
+
+
+      54 0035  A0 0001 R			mov al, actl
+      55 0038  83 C2 02				add dx, 2
+      56 003B  8B DA				mov bx, dx
+      57 003D  8A 1F				mov bl, [bx]
+      58 003F  80 FB 2D				cmp bl, '-'
+      59 0042  75 03				jne positive
+      60 0044  42				inc dx
+      61 0045  FE C8				dec al
+      62 0047				positive:
+      63 0047  A2 0001 R		    mov actl, al
+      64 004A  E8 0000 R			call str_to_num
+      65 004D  72 1D				jc finish
+      66 004F  80 FB 2D				cmp bl, '-'
+      67 0052  75 12				jne check_pos
+      68 0054  3D 8000				cmp ax, 32768d
+      69 0057  77 07				ja inp_error
+      70 0059  F7 D0				not ax
+      71 005B  40				inc ax
+      72 005C  F8				clc
+      73 005D  EB 0D 90				jmp finish
+      74				
+      75 0060				inp_error:
+      76 0060  33 C0			   xor ax, ax
+      77 0062  F9			   stc 
+      78 0063  EB 07 90			   jmp finish   
+      79 0066				check_pos:
+      80 0066  3D 7FFF			    cmp ax, 32767d
+      81 0069  77 F5				ja inp_error
+      82 006B  F8				clc
+      83 006C				finish:
+      84 006C  BB ---- E			mov bx, seg X
+      85 006F  8E DB				mov ds, bx
+      86 0071  C7 06 0000 E 0000		mov X, 0
+      87 0077  A3 0000 E		    mov X, ax
+      88					;mov al, actl
+      89 007A  C3			    ret
+      90 007B				input_x_1 endp
+      91 007B				CSEG ENDS
+      92				END
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	007B	PARA	PUBLIC	'CODE'
+DATAS  . . . . . . . . . . . . .  	001C	PARA	PUBLIC	'DATA2'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ACTL . . . . . . . . . . . . . .  	L BYTE	0001	DATAS
+
+BUF  . . . . . . . . . . . . . .  	L BYTE	0000	DATAS
+
+CF_ERROR . . . . . . . . . . . .  	L NEAR	001D	CSEG
+CHECK_POS  . . . . . . . . . . .  	L NEAR	0066	CSEG
+
+FINISH . . . . . . . . . . . . .  	L NEAR	006C	CSEG
+
+INPUT_X_1  . . . . . . . . . . .  	N PROC	0022	CSEG	Global	Length = 0059
+INP_ERROR  . . . . . . . . . . .  	L NEAR	0060	CSEG
+
+MAXL . . . . . . . . . . . . . .  	L BYTE	0000	DATAS
+MUL_LOOP . . . . . . . . . . . .  	L NEAR	000A	CSEG
+
+POSITIVE . . . . . . . . . . . .  	L NEAR	0047	CSEG
+
+STR_TO_NUM . . . . . . . . . . .  	N PROC	0000	CSEG	Length = 0022
+STR_TO_NUM_EXIT  . . . . . . . .  	L NEAR	0020	CSEG
+
+TEXT . . . . . . . . . . . . . .  	L BYTE	0002	DATAS	Length = 0007
+
+WELCOME  . . . . . . . . . . . .  	L BYTE	0009	DATAS
+
+X  . . . . . . . . . . . . . . .  	V WORD	0000		External
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab6_in		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     86 Source  Lines
+     86 Total   Lines
+     28 Symbols
+
+  46614 + 443399 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

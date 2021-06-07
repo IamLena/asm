@@ -1,0 +1,199 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-1
+
+
+       1				EXTRN input_x_1:near
+       2				EXTRN out_bu_2:near
+       3				EXTRN out_bs_3:near
+       4				EXTRN out_du_4:near
+       5				EXTRN out_ds_5:near
+       6				EXTRN out_hu_6:near
+       7				EXTRN out_hs_7:near
+       8				
+       9 0000				SSEG SEGMENT PARA STACK 'STACK'
+      10 0000  0040[			    db 64 dup(0)
+      11	   00			
+      12			 ]	
+      13				
+      14 0040				SSEG ENDS
+      15				
+      16 0000				DSEG SEGMENT PARA PUBLIC 'DATA'
+      17 0000  0D 0A				error_str db 13, 10
+      18 0002  49 6E 70 75 74 20		          db "Input error"
+      19       65 72 72 6F 72		
+      20 000D  0D 0A				          db 13, 10
+      21 000F  24						  db "$"
+      22 0010  0D 0A 30 29 20 73		menu	db 13, 10, "0) show men
+					u"
+      23       68 6F 77 20 6D 65	
+      24       6E 75			
+      25 001E  0D 0A 31 29 20 69				db 13, 10, "1) 
+					input number X"
+      26       6E 70 75 74 20 6E	
+      27       75 6D 62 65 72 20	
+      28       58			
+      29 0031  0D 0A 32 29 20 70				db 13, 10, "2) 
+					print binary unsigned"
+      30       72 69 6E 74 20 62	
+      31       69 6E 61 72 79 20	
+      32       75 6E 73 69 67 6E	
+      33       65 64			
+      34 004B  0D 0A 33 29 20 70				db 13, 10, "3) 
+					print binary signed"
+      35       72 69 6E 74 20 62	
+      36       69 6E 61 72 79 20	
+      37       73 69 67 6E 65 64	
+      38 0063  0D 0A 34 29 20 70				db 13, 10, "4) 
+					print decimal unsigned"
+      39       72 69 6E 74 20 64	
+      40       65 63 69 6D 61 6C	
+      41       20 75 6E 73 69 67	
+      42       6E 65 64			
+      43 007E  0D 0A 35 29 20 70				db 13, 10, "5) 
+					print decimal signed"
+      44       72 69 6E 74 20 64	
+      45       65 63 69 6D 61 6C	
+      46       20 73 69 67 6E 65	
+      47       64			
+      48 0097  0D 0A 36 29 20 70				db 13, 10, "6) 
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-2
+
+
+					print hex unsigned"
+      49       72 69 6E 74 20 68	
+      50       65 78 20 75 6E 73	
+      51       69 67 6E 65 64		
+      52 00AE  0D 0A 37 29 20 70				db 13, 10, "7) 
+					print hex signed"
+      53       72 69 6E 74 20 68	
+      54       65 78 20 73 69 67	
+      55       6E 65 64			
+      56 00C3  0D 0A 38 29 20 65				db 13, 10, "8) 
+					exit$"
+      57       78 69 74 24		
+      58 00CD  0D 0A 63 68 6F 73		welcome db 13, 10, "chose an op
+					tion: $"
+      59       65 20 61 6E 20 6F	
+      60       70 74 69 6F 6E 3A	
+      61       20 24			
+      62 00E1  0000 E 0000 E 0000 E		FUNC     dw input_x_1, out_bu_2
+					, out_bs_3, out_du_4, out_ds_5, out_hu_
+					6, out_hs_7
+      63       0000 E 0000 E 0000 E	
+      64       0000 E			
+      65 00EF  000A				X        dw 10
+      66 00F1  24				         db "$"
+      67 00F2				DSEG ENDS
+      68				
+      69 0000				CSEG SEGMENT PARA PUBLIC 'CODE'
+      70				    assume CS:CSEG, DS:DSEG, SS:SSEG
+      71					
+      72 0000				read:
+      73 0000  BA 00CD R			mov dx, offset welcome
+      74 0003  B4 09				mov ah, 09h
+      75 0005  CD 21				int 21h
+      76					
+      77 0007  B4 07				mov ah, 07h
+      78 0009  CD 21				int 21h
+      79 000B  8A D8				mov bl, al
+      80 000D  8A D0				mov dl, al
+      81 000F  B4 02				mov ah, 02h
+      82 0011  CD 21				int 21h
+      83 0013  B2 0D				mov dl, 13
+      84 0015  B4 02				mov ah, 02h
+      85 0017  CD 21				int 21h
+      86 0019  B2 0A				mov dl, 10
+      87 001B  B4 02				mov ah, 02h
+      88 001D  CD 21				int 21h
+      89					
+      90 001F  80 FB 30				cmp bl, 30h	
+      91 0022  74 16				je print_menu
+      92 0024  80 FB 38				cmp bl, 38h
+      93 0027  74 21				je exit
+      94 0029  7F D5				jg read
+      95					
+      96 002B  FE CB				dec bl
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Page     1-3
+
+
+      97 002D  B7 00				mov bh, 0
+      98 002F  83 EB 30				sub bx, 30h
+      99				
+     100 0032  8B F3				mov si, bx
+     101 0034  FF 94 00E1 R			call FUNC[si]
+     102 0038  EB C6				jmp read
+     103					
+     104 003A				print_menu:
+     105 003A  B4 09			    mov ah, 9h
+     106 003C  BA 0010 R			mov dx, OFFSET menu
+     107 003F  CD 21				int 21h
+     108 0041  EB BD				jmp read
+     109 0043				main:
+     110 0043  B8 ---- R		    mov ax, DSEG
+     111 0046  8E D8				mov ds, ax
+     112 0048  EB F0				jmp print_menu
+     113				
+     114 004A				exit:
+     115 004A  B4 4C			    mov ah, 4ch
+     116 004C  B0 00				mov al, 0
+     117 004E  CD 21				int 21h
+     118				    
+     119 0050				CSEG ENDS
+     120				PUBLIC X
+     121				END main
+Microsoft (R) Macro Assembler Version 5.10                  3/25/19 13:24:42
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CSEG . . . . . . . . . . . . . .  	0050	PARA	PUBLIC	'CODE'
+DSEG . . . . . . . . . . . . . .  	00F2	PARA	PUBLIC	'DATA'
+SSEG . . . . . . . . . . . . . .  	0040	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ERROR_STR  . . . . . . . . . . .  	L BYTE	0000	DSEG
+EXIT . . . . . . . . . . . . . .  	L NEAR	004A	CSEG
+
+FUNC . . . . . . . . . . . . . .  	L 0002	00E1	DSEG
+
+INPUT_X_1  . . . . . . . . . . .  	L NEAR	0000		External
+
+MAIN . . . . . . . . . . . . . .  	L NEAR	0043	CSEG
+MENU . . . . . . . . . . . . . .  	L BYTE	0010	DSEG
+
+OUT_BS_3 . . . . . . . . . . . .  	L NEAR	0000		External
+OUT_BU_2 . . . . . . . . . . . .  	L NEAR	0000		External
+OUT_DS_5 . . . . . . . . . . . .  	L NEAR	0000		External
+OUT_DU_4 . . . . . . . . . . . .  	L NEAR	0000		External
+OUT_HS_7 . . . . . . . . . . . .  	L NEAR	0000		External
+OUT_HU_6 . . . . . . . . . . . .  	L NEAR	0000		External
+
+PRINT_MENU . . . . . . . . . . .  	L NEAR	003A	CSEG
+
+READ . . . . . . . . . . . . . .  	L NEAR	0000	CSEG
+
+WELCOME  . . . . . . . . . . . .  	L BYTE	00CD	DSEG
+
+X  . . . . . . . . . . . . . . .  	L WORD	00EF	DSEG	Global
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab6_m		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     85 Source  Lines
+     85 Total   Lines
+     31 Symbols
+
+  46538 + 443475 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
